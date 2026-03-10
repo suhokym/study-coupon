@@ -1,18 +1,6 @@
-plugins {
-    java
-    id("org.springframework.boot") version "4.0.3"
-    id("io.spring.dependency-management") version "1.1.7"
-}
+val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
-description = "coupon-core"
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
+bootJar.enabled = false
 
 repositories {
     mavenCentral()
