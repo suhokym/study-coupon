@@ -1,4 +1,5 @@
-version: '3.7'
+version: '3.8'
+
 services:
   redis:
     container_name: coupon-redis
@@ -9,17 +10,32 @@ services:
       - "mode=standalone"
     ports:
       - 6380:6380
+    networks:
+      - coupon-network
+
   mysql:
     container_name: coupon-mysql
-    image: ubuntu/mysql:edge
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --explicit_defaults_for_timestamp=1
+    image: mysql:8.0.33  # 공식 MySQL 이미지 사용 (안정적인 8.0 추천)
+    # 공식 이미지는 command 대신 별도의 flag나 환경변수로 설정을 처리하는 게 더 깔끔합니다.
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --explicit_defaults_for_timestamp=1
+      - --default-authentication-plugin=mysql_native_password
     ports:
       - 3306:3306
     environment:
-      - MYSQL_DATABASE=coupon
-      - MYSQL_USER=abcd
-      - MYSQL_PASSWORD=1234
-      - MYSQL_ROOT_PASSWORD=1234
-      - TZ=UTC
+      MYSQL_DATABASE: coupon
+      MYSQL_USER: abcd
+      MYSQL_PASSWORD: '1234'
+      MYSQL_ROOT_PASSWORD: '1234'
+      TZ: Asia/Seoul  # 한국 시간으로 변경 (필요시 UTC로 되돌리세요)
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql # 데이터 영속성을 위해 데이터 디렉토리 연결 권장
+    networks:
+      - coupon-network
+
+networks:
+  coupon-network:
+    driver: bridge
