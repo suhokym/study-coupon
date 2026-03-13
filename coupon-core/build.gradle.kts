@@ -8,6 +8,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.redisson:redisson:3.45.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
