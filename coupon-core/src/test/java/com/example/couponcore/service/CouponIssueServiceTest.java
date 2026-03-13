@@ -58,7 +58,7 @@ class CouponIssueServiceTest extends TestConfig {
 
 
         //then
-        Assertions.assertEquals(exception.getErrorCode(), DUPLICATE_COUPON_ISSUE);
+        Assertions.assertEquals(exception.getErrorCode(), DUPLICATED_COUPON_ISSUE);
 
     }
 
@@ -194,7 +194,7 @@ class CouponIssueServiceTest extends TestConfig {
 
         //then
 
-        Assertions.assertEquals(exception.getErrorCode(), DUPLICATE_COUPON_ISSUE);
+        Assertions.assertEquals(exception.getErrorCode(), DUPLICATED_COUPON_ISSUE);
 
 
     }

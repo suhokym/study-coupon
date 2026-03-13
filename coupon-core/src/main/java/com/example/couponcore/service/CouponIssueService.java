@@ -1,7 +1,6 @@
 package com.example.couponcore.service;
 
 import com.example.couponcore.exception.CouponIssueException;
-import com.example.couponcore.exception.ErrorCode;
 import com.example.couponcore.model.Coupon;
 import com.example.couponcore.model.CouponIssue;
 import com.example.couponcore.repository.mysql.CouponIssueJpaRepository;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.couponcore.exception.ErrorCode.COUPON_NOT_EXIST;
-import static com.example.couponcore.exception.ErrorCode.DUPLICATE_COUPON_ISSUE;
+import static com.example.couponcore.exception.ErrorCode.DUPLICATED_COUPON_ISSUE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -62,7 +61,7 @@ public class CouponIssueService {
 
         CouponIssue firstCouponIssue = couponIssueRepository.findFirstCouponIssue(couponId, userId);
         if (firstCouponIssue != null) {
-            throw new CouponIssueException(DUPLICATE_COUPON_ISSUE,
+            throw new CouponIssueException(DUPLICATED_COUPON_ISSUE,
                     "이미 발급된 쿠폰입니다. user_id: %s, coupon_id: %s".formatted(userId, couponId));
         }
     }
