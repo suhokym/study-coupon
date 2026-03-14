@@ -21,13 +21,13 @@ public class CouponIssueController {
     }
 
     @PostMapping("/v1/issue-async")
-    public CouponIssueResponseDto asynkIssueV1(@RequestBody CouponIssueRequestDto requestDto){
-        couponIssueRequestService.asynkIssueRequestV1(requestDto);
+    public CouponIssueResponseDto asyncIssueV1(@RequestBody CouponIssueRequestDto requestDto){
+        couponIssueRequestService.asyncIssueRequestV1(requestDto);
         return new CouponIssueResponseDto(true, null);
     }
     @PostMapping("/v2/issue-async")
-    public CouponIssueResponseDto asynkIssueV2(@RequestBody CouponIssueRequestDto requestDto){
-        couponIssueRequestService.asynkIssueRequestV1(requestDto);
+    public CouponIssueResponseDto asyncIssueV2(@RequestBody CouponIssueRequestDto requestDto){
+        couponIssueRequestService.asyncIssueRequestV2(requestDto);
         return new CouponIssueResponseDto(true, null);
     }
 

@@ -48,6 +48,17 @@ public class RedisRepository {
         return redisTemplate.opsForList().rightPush(key, value);
     }
 
+    public Long lSize(String key) {
+        return redisTemplate.opsForList().size(key);
+    }
+
+    public String lPop(String key) {
+        return redisTemplate.opsForList().leftPop(key);
+    }
+
+    public String lIndex(String key, long index){
+        return redisTemplate.opsForList().index(key, index);
+    }
 
     public void issueRequest(long couponId, long userId, int totalIssueQuntity){
         String issueRequestKey = getIssueRequestKey(couponId);
@@ -68,7 +79,7 @@ public class RedisRepository {
 
     private RedisScript<String> issueRequestScript(){
         String script = """
-                if redis.call('SUSMEMBER', KEYS[1], ARGV[1]) == 1 then
+                if redis.call('SISMEMBER', KEYS[1], ARGV[1]) == 1 then
                     return '2'
                 end
                 
