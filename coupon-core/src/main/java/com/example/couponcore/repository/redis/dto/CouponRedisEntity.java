@@ -12,6 +12,7 @@ public record CouponRedisEntity(
         Long id,
         CouponType couponType,
         Integer totalQuantity,
+        boolean availableIssueQuantity,
         LocalDateTime dateIssueStart,
         LocalDateTime dateIssueEnd
 ) implements Serializable {
@@ -21,6 +22,7 @@ public record CouponRedisEntity(
                 coupon.getId(),
                 coupon.getCouponType(),
                 coupon.getTotalQuantity(),
+                coupon.availableIssuedQuantity(),
                 coupon.getDateIssueStart(),
                 coupon.getDateIssueEnd()
         );
@@ -31,7 +33,14 @@ public record CouponRedisEntity(
         return dateIssueStart.isBefore(now) && dateIssueEnd.isAfter(now);
     }
 
+
     public void checkIssueableCoupon() {
+
+        if (!availableIssueQuantity()) {
+            throw new CouponIssueException(ErrorCode.INVALID_COUPON_ISSUE_QUANTITY, "모든 발급 수량이 소진되었습니다. couponId: %s"
+                    .formatted(id));
+        }
+
         if (!availableIssueDate()) {
             throw new CouponIssueException(ErrorCode.INVALID_COUPON_ISSUE_DATE, "발급 가능한 일자가 아닙니다. couponId: %s, issueStart: %s, issueEnd: %s"
                     .formatted(id, dateIssueStart, dateIssueEnd));

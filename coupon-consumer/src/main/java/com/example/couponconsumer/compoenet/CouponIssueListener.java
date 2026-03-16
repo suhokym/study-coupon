@@ -33,9 +33,12 @@ public class CouponIssueListener {
         while(existCouponIssueTarget()){
             CouponIssueRequest target = getIssueTarget();
             log.info("발급 시작 target: %s".formatted(target));
-            couponIssueService.issue(target.couponId(), target.userId());
-            log.info("발급 완료 target: %s".formatted(target));
-            removeIssuedTarget();
+            try {
+                couponIssueService.issue(target.couponId(), target.userId());
+                log.info("발급 완료 target: %s".formatted(target));
+            } finally {
+                removeIssuedTarget();
+            }
         }
     }
 

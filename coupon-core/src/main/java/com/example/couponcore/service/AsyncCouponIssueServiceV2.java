@@ -24,12 +24,9 @@ public class AsyncCouponIssueServiceV2 {
     private final CouponCacheService couponCacheService;
 
     public void issue(long couponId, long userId) {
-        CouponRedisEntity couponCache = couponCacheService.getCouponCache(couponId);
+        CouponRedisEntity couponCache = couponCacheService.getCouponLocalCache(couponId);
         couponCache.checkIssueableCoupon();
-            couponIssueRedisService.checkCouponIssueQuantity(couponCache, userId);
-            issueRequest(couponId, userId, couponCache.totalQuantity());
-
-
+        issueRequest(couponId, userId, couponCache.totalQuantity());
     }
 
     /*
@@ -42,6 +39,7 @@ public class AsyncCouponIssueServiceV2 {
     private void issueRequest(long couponId, long userId, Integer totalIssueQuantity) {
         if(totalIssueQuantity == null) {
             redisRepository.issueRequest(couponId, userId, Integer.MAX_VALUE);
+            return;
         }
         redisRepository.issueRequest(couponId, userId, totalIssueQuantity);
     }

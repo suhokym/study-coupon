@@ -61,6 +61,11 @@ public class Coupon extends BaseTimeEntity {
         return dateIssueStart.isBefore(now) && dateIssueEnd.isAfter(now);
     }
 
+    public boolean isIssueComplete(){
+        LocalDateTime now = LocalDateTime.now();
+        return dateIssueEnd.isBefore(now) || !availableIssuedQuantity();
+    }
+
     public void issue(){
 
         if(!availableIssuedQuantity()){
